@@ -1,0 +1,77 @@
+<div class="ml-1">
+ 
+  <dx-button
+  stylingMode="contained"
+  text="Nueva categoria"
+  type="default"
+  [width]="130"
+  (onClick)="modalAgregarCategoria()"
+>
+</dx-button>
+</div>
+
+<!-- Modal -->
+<dx-popup [(visible)]="showModal" [showTitle]="true" [title]="'Agregar categoria'" [width]="300" [height]="200" (onHidden)="closeModal(false)">
+  <div>
+    <div style="margin-bottom: 10px;">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" [(ngModel)]="nombreCategoria" style="width: 100%;">
+    </div>
+    <dx-button text="Cancelar" (onClick)="closeModal(false)"></dx-button>
+    <dx-button text="Guardar" (onClick)="guardarCategoria()"></dx-button>
+  </div>
+</dx-popup>
+
+<dx-tab-panel
+  class="dx-theme-background-color"
+  width="100%"
+  [height]="418"
+  [animationEnabled]="true"
+  [swipeEnabled]="true"
+  [dataSource]="dataSource"
+  [tabsPosition]="tabsPosition"
+  [stylingMode]="stylingMode"
+>
+  <div *dxTemplate="let tabPanelItem of 'item'">
+    <div class="tabpanel-item">
+      <!-- Botón para agregar nueva nota -->
+      <div style="display: flex; align-items: center;">
+        <dx-tooltip target="#icon-plus" showEvent="mouseenter" hideEvent="mouseleave">
+          <div>Agregar Nota</div>
+        </dx-tooltip>
+        <dx-button icon="plus" (click)="modalAgregarNota(tabPanelItem.id)" id="icon-plus"></dx-button>
+      
+        <dx-tooltip target="#icon-back" showEvent="mouseenter" hideEvent="mouseleave">
+          <div>Eliminar Categoría</div>
+        </dx-tooltip>
+        <dx-button icon="trash" (click)="EliminarCategoria(tabPanelItem.id)" id="icon-back"></dx-button>
+      </div>
+      
+      
+      
+      <div *ngFor="let task of tabPanelItem.notas" class="task-item task-item-priority-high">
+        <span class="task-item-text">{{ task.nombre }}</span>
+        <span class="task-item-info">
+          {{ task.descripcion }} Fecha creación {{ task.fechaReg | date:'mediumDate' }}
+          <i class="task-item-pseudo-button dx-icon dx-icon-trash" (click)="eliminarNota(task)"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</dx-tab-panel>
+
+
+<dx-popup [(visible)]="showModalNotas" [showTitle]="true" [title]="'Agregar nota'" [width]="600" [height]="360" (onHidden)="closeModalNotas(false)">
+  <div>
+    <div style="margin-bottom: 10px;">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombreNota" [(ngModel)]="nombreNota" style="width: 100%;">
+      <label for="nombre">Descripción:</label>
+      <textarea type="textarea" id="descripcionNota" [(ngModel)]="descripcionNota" style="width: 100%;height: 150px ;resize: vertical;"></textarea>
+    </div>
+    <div style="display: flex; justify-content: flex-end;">
+    <dx-button text="Cancelar" style="background-color: rgb(238, 114, 114);" (onClick)="closeModalNotas(false)"></dx-button>
+    <dx-button text="Guardar" style="background-color: rgb(109, 222, 109);" (onClick)="guardarNota()"></dx-button>
+  </div>
+</div>
+</dx-popup>
